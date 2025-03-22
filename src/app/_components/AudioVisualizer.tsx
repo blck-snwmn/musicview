@@ -137,9 +137,38 @@ export const AudioVisualizer = () => {
         // 停止中の初期状態のデータを作成
         const createNeutralData = () => {
             const dataArray = new Uint8Array(1024); // analyser.fftSize / 2
-            dataArray.fill(128); // 中央値で埋める（振幅0）
+            dataArray.fill(0);
             return dataArray;
         };
+
+        // 周波数データを正規化する関数
+        const normalizeFrequencyData = (data: Uint8Array): Uint8Array => {
+            // 最大値を見つける
+            let max = 0;
+            for (let i = 0; i < data.length; i++) {
+                if (data[i] > max) max = data[i];
+            }
+
+            // 最大値が0の場合は全て0を返す
+            if (max === 0) return data;
+
+            // 正規化したデータを作成
+            const normalized = new Uint8Array(data.length);
+            for (let i = 0; i < data.length; i++) {
+                // 0-255の範囲に正規化
+                normalized[i] = Math.round((data[i] / max) * 255);
+            }
+            return normalized;
+        };
+
+        // アナライザーの設定を調整
+        if (analyserRef.current) {
+            // より広いデシベル範囲を設定
+            analyserRef.current.minDecibels = -90;
+            analyserRef.current.maxDecibels = -10;
+            // スムージングを調整（0に近いほど反応が敏感に）
+            analyserRef.current.smoothingTimeConstant = 0.5;
+        }
 
         // draw関数の定義
         const draw = () => {
@@ -149,10 +178,13 @@ export const AudioVisualizer = () => {
             if (isPlaying) {
                 animationFrameRef.current = requestAnimationFrame(draw);
 
-                // データの取得
-                const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
-                analyserRef.current.getByteTimeDomainData(dataArray);
-                lastDataArrayRef.current = dataArray;
+                // 周波数データの取得
+                const rawData = new Uint8Array(analyserRef.current.frequencyBinCount);
+                analyserRef.current.getByteFrequencyData(rawData);
+
+                // データを正規化
+                const normalizedData = normalizeFrequencyData(rawData);
+                lastDataArrayRef.current = normalizedData;
             }
 
             // キャンバスをクリア

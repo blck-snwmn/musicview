@@ -13,22 +13,22 @@ const defaultConfig: Required<VisualizerConfig> & {
     lineWidth: 2,
     strokeStyle: 'rgb(100, 100, 255)',
     backgroundColor: 'rgb(20, 20, 20)',
-    baseRadius: 0.6,  // 基本の円の大きさ（キャンバスの最小辺に対する比率）
-    radiusScale: 0.5, // 波形の変化の大きさ
+    baseRadius: 0.45,  // より大きな基本半径
+    radiusScale: 1.5,  // 適度な変化の幅
 };
 
 /**
- * Circular visualizer implementation that draws the waveform in a circular pattern
- * This visualizer represents audio data as variations in the radius of a circle
+ * Circular visualizer implementation that draws frequency data in a circular pattern
+ * This visualizer represents frequency spectrum as variations in the radius of a circle
  */
 export const circularVisualizer: VisualizerMode = {
     id: 'circular',
-    name: '円形表示',
-    description: '円形の波形表示',
+    name: '円形周波数表示',
+    description: '周波数スペクトラムを円形で表示',
     /**
-     * Draws the circular waveform visualization
+     * Draws the circular frequency visualization
      * @param ctx - Canvas rendering context
-     * @param dataArray - Audio data array (values 0-255)
+     * @param dataArray - Audio frequency data array (values 0-255)
      * @param canvas - Canvas element
      */
     draw: (ctx: CanvasRenderingContext2D, dataArray: Uint8Array, canvas: HTMLCanvasElement) => {
@@ -44,21 +44,19 @@ export const circularVisualizer: VisualizerMode = {
         const centerY = canvas.height / 2;
         const radius = Math.min(centerX, centerY) * config.baseRadius;
 
-        // Set up the line style for the waveform
+        // Draw the frequency spectrum in a circle
         ctx.lineWidth = config.lineWidth;
         ctx.strokeStyle = config.strokeStyle;
         ctx.beginPath();
 
-        // Draw the circular waveform
         for (let i = 0; i < bufferLength; i++) {
-            // Normalize the value to -1.0 to 1.0 range
-            const v = dataArray[i] / 128.0;
             // Calculate the angle for this point
             const percent = i / bufferLength;
-            const angle = percent * Math.PI * 2;
-            
-            // Calculate the radius variation based on audio data
-            const radiusOffset = ((v - 1) * radius * config.radiusScale);
+            const angle = percent * Math.PI * 2 - Math.PI / 2; // Start from top (-90 degrees)
+
+            // Calculate radius variation based on frequency data
+            const value = dataArray[i] / 255.0;
+            const radiusOffset = value * radius * config.radiusScale;
             const currentRadius = radius + radiusOffset;
 
             // Convert polar coordinates to cartesian

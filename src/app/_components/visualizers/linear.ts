@@ -11,17 +11,17 @@ const defaultConfig: Required<VisualizerConfig> = {
 };
 
 /**
- * Linear visualizer implementation that draws the waveform from left to right
- * This visualizer shows the audio waveform in its time domain representation
+ * Linear visualizer implementation that draws the frequency spectrum as a line graph
+ * This visualizer shows the audio spectrum in a continuous line form
  */
 export const linearVisualizer: VisualizerMode = {
     id: 'linear',
-    name: '線形表示',
-    description: '左から右への波形表示',
+    name: '線形周波数表示',
+    description: '周波数スペクトラムを線で表示（低音→高音）',
     /**
-     * Draws the linear waveform visualization
+     * Draws the linear frequency visualization
      * @param ctx - Canvas rendering context
-     * @param dataArray - Audio data array (values 0-255)
+     * @param dataArray - Audio frequency data array (values 0-255)
      * @param canvas - Canvas element
      */
     draw: (ctx: CanvasRenderingContext2D, dataArray: Uint8Array, canvas: HTMLCanvasElement) => {
@@ -32,7 +32,7 @@ export const linearVisualizer: VisualizerMode = {
         ctx.fillStyle = config.backgroundColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Set up the line style for the waveform
+        // Set up the line style for the frequency spectrum
         ctx.lineWidth = config.lineWidth;
         ctx.strokeStyle = config.strokeStyle;
         ctx.beginPath();
@@ -41,12 +41,11 @@ export const linearVisualizer: VisualizerMode = {
         const sliceWidth = canvas.width * 1.0 / bufferLength;
         let x = 0;
 
-        // Draw the waveform by connecting points
+        // Draw the frequency spectrum as a continuous line
         for (let i = 0; i < bufferLength; i++) {
-            // Normalize the value to -1.0 to 1.0 range
-            const v = dataArray[i] / 128.0;
-            // Scale the value to canvas height
-            const y = v * canvas.height / 2;
+            // Normalize the value to canvas height (invert the value for bottom-up display)
+            const v = 1 - (dataArray[i] / 255.0);
+            const y = v * canvas.height;
 
             if (i === 0) {
                 ctx.moveTo(x, y);
@@ -60,5 +59,17 @@ export const linearVisualizer: VisualizerMode = {
         // Complete the path and draw it
         ctx.lineTo(canvas.width, canvas.height / 2);
         ctx.stroke();
+
+        // Draw frequency range indicators
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'rgb(200, 200, 200)';
+        ctx.textAlign = 'center';
+        
+        // 低音域のラベル
+        ctx.fillText('低音域', canvas.width * 0.17, canvas.height - 5);
+        // 中音域のラベル
+        ctx.fillText('中音域', canvas.width * 0.5, canvas.height - 5);
+        // 高音域のラベル
+        ctx.fillText('高音域', canvas.width * 0.83, canvas.height - 5);
     },
 }; 
