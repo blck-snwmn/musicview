@@ -38,7 +38,7 @@ const defaultConfig: Required<VisualizerConfig> & {
 export const frequencyVisualizer: VisualizerMode = {
     id: 'frequency',
     name: '周波数表示',
-    description: '周波数スペクトラムをバーで表示（低音→高音）',
+    description: '周波数スペクトラムをバーで表示',
     /**
      * Draws the frequency spectrum visualization
      * @param ctx - Canvas rendering context
@@ -82,25 +82,5 @@ export const frequencyVisualizer: VisualizerMode = {
             // Draw the bar
             ctx.fillRect(x, y, barWidth, barHeight);
         }
-
-        // Draw frequency range indicators
-        ctx.font = '12px Arial';
-        ctx.fillStyle = 'rgb(200, 200, 200)';
-        ctx.textAlign = 'center';
-        
-        // 低音域のラベル
-        const lowX = canvas.width * 0.17;
-        ctx.fillStyle = config.colors.low;
-        ctx.fillText('低音域', lowX, canvas.height - 5);
-        
-        // 中音域のラベル
-        const midX = canvas.width * 0.5;
-        ctx.fillStyle = config.colors.mid;
-        ctx.fillText('中音域', midX, canvas.height - 5);
-        
-        // 高音域のラベル
-        const highX = canvas.width * 0.83;
-        ctx.fillStyle = config.colors.high;
-        ctx.fillText('高音域', highX, canvas.height - 5);
     },
 }; 
