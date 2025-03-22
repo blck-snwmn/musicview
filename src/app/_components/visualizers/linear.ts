@@ -69,19 +69,5 @@ export const linearVisualizer: VisualizerMode = {
 
         // Draw the line
         ctx.stroke();
-
-        // Draw frequency range indicators
-        ctx.font = '12px Arial';
-        ctx.fillStyle = 'rgb(200, 200, 200)';
-        ctx.textAlign = 'center';
-        
-        const labelY = drawArea.y + drawArea.height - 5;
-        
-        // 低音域のラベル
-        ctx.fillText('低音域', drawArea.x + drawArea.width * 0.17, labelY);
-        // 中音域のラベル
-        ctx.fillText('中音域', drawArea.x + drawArea.width * 0.5, labelY);
-        // 高音域のラベル
-        ctx.fillText('高音域', drawArea.x + drawArea.width * 0.83, labelY);
     },
 }; 
