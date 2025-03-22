@@ -7,10 +7,12 @@ Real-time visualization of frequency spectrum from uploaded music files.
 
 - Music file upload and playback
 - Real-time frequency spectrum visualization
-- Three visualization modes:
+- Available visualization modes:
   - Linear Display: Shows frequency spectrum as a continuous line
   - Circular Display: Arranges frequency data in a circular pattern
   - Frequency Bars: Displays frequency data as vertical bars
+  - Symmetric Display: Shows frequency data as symmetric bars around the center line
+  - Layered Display: Visualizes low, mid, and high frequency ranges with overlapping colored areas
 - Playback controls (Play/Stop)
 - Volume control
 - Mode switching (dropdown menu)
@@ -44,6 +46,7 @@ After starting the development server, you can access the application at [http:/
 
 ## Notes
 
+- This project is primarily intended for experimental feature verification
 - Music files are processed client-side only and are not uploaded to any server
 - Requires a browser that supports the Web Audio API
 
