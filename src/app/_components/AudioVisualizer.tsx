@@ -90,15 +90,13 @@ export const AudioVisualizer = () => {
 
     return (
         <div className="w-full max-w-4xl">
-            <div className="mb-4 flex justify-between items-center">
-                <div className="text-sm text-gray-500">
-                    {currentVisualizer.description}
-                </div>
+            <div className="mb-4 flex justify-end">
                 <button
                     onClick={handleVisualizerChange}
-                    className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition-colors"
+                    className="px-3 py-1.5 text-sm bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition-colors"
+                    title={currentVisualizer.description}
                 >
-                    {currentVisualizer.name}に切り替え
+                    {currentVisualizer.name}
                 </button>
             </div>
             <div className="aspect-[2/1] bg-gray-900 rounded-lg overflow-hidden">
