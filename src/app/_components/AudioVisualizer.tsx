@@ -187,10 +187,24 @@ export const AudioVisualizer = () => {
             ctx.fillStyle = 'rgb(20, 20, 20)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // 描画領域に余白を設定
+            const margin = {
+                x: canvas.width * 0.1,  // 左右10%ずつ
+                y: canvas.height * 0.1   // 上下10%ずつ
+            };
+            const drawWidth = canvas.width - (margin.x * 2);
+            const drawHeight = canvas.height - (margin.y * 2);
+
             // 描画データの選択（再生中は実データ、停止中は初期状態）
             const drawData = isPlaying ? lastDataArrayRef.current : createNeutralData();
             if (drawData) {
-                currentVisualizer.draw(ctx, drawData, canvas);
+                // 描画領域の情報を渡す
+                currentVisualizer.draw(ctx, drawData, canvas, {
+                    x: margin.x,
+                    y: margin.y,
+                    width: drawWidth,
+                    height: drawHeight
+                });
             }
         };
 
@@ -244,15 +258,21 @@ export const AudioVisualizer = () => {
                         />
                     </div>
                 </div>
-                <button
-                    onClick={handleVisualizerChange}
+                <select
+                    value={currentVisualizer.id}
+                    onChange={(e) => {
+                        const selected = visualizers.find(v => v.id === e.target.value);
+                        if (selected) setCurrentVisualizer(selected);
+                    }}
                     className="px-3 py-1.5 text-sm bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition-colors"
                     title={currentVisualizer.description}
                 >
-                    {currentVisualizer.name}
-                </button>
+                    {visualizers.map(v => (
+                        <option key={v.id} value={v.id}>{v.name}</option>
+                    ))}
+                </select>
             </div>
-            <div className="aspect-[2/1] bg-gray-900 rounded-lg overflow-hidden">
+            <div className="aspect-[2/1] bg-gray-900 rounded-lg overflow-hidden p-4">
                 <canvas
                     ref={canvasRef}
                     className="w-full h-full"

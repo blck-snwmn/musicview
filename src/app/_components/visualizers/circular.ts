@@ -1,4 +1,4 @@
-import { VisualizerMode, VisualizerConfig } from './types';
+import { VisualizerMode, VisualizerConfig, DrawArea } from './types';
 
 /**
  * Extended configuration for the circular visualizer
@@ -11,13 +11,16 @@ const defaultConfig: Required<VisualizerConfig> & {
     radiusScale: number;
     /** Scale factor for low frequency emphasis */
     lowFreqEmphasis: number;
+    /** Base circle color */
+    baseCircleColor: string;
 } = {
     lineWidth: 2,
     strokeStyle: 'rgb(100, 100, 255)',
     backgroundColor: 'rgb(20, 20, 20)',
     baseRadius: 0.45,  // 基本の円の大きさ
-    radiusScale: 1.5,  // 変化の幅
+    radiusScale: 0.8,  // 変化の幅を抑える
     lowFreqEmphasis: 1.5,  // 低周波の強調度
+    baseCircleColor: 'rgb(40, 40, 80)'  // 基本円の色
 };
 
 /**
@@ -33,19 +36,23 @@ export const circularVisualizer: VisualizerMode = {
      * @param ctx - Canvas rendering context
      * @param dataArray - Audio frequency data array (values 0-255)
      * @param canvas - Canvas element
+     * @param drawArea - Drawing area parameters
      */
-    draw: (ctx: CanvasRenderingContext2D, dataArray: Uint8Array, canvas: HTMLCanvasElement) => {
+    draw: (ctx: CanvasRenderingContext2D, dataArray: Uint8Array, canvas: HTMLCanvasElement, drawArea: DrawArea) => {
         const config = { ...defaultConfig };
         const bufferLength = dataArray.length;
 
-        // Clear the canvas with the background color
-        ctx.fillStyle = config.backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         // Calculate the center point and base radius
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) * config.baseRadius;
+        const centerX = drawArea.x + drawArea.width / 2;
+        const centerY = drawArea.y + drawArea.height / 2;
+        const radius = Math.min(drawArea.width, drawArea.height) / 2 * config.baseRadius;
+
+        // 基本円を描画
+        ctx.beginPath();
+        ctx.strokeStyle = config.baseCircleColor;
+        ctx.lineWidth = config.lineWidth;
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.stroke();
 
         // Draw the frequency spectrum in a circle
         ctx.lineWidth = config.lineWidth;

@@ -2,7 +2,7 @@
  * Visualizer mode interface that defines the structure of a visualizer.
  * Each visualizer must implement this interface to be compatible with the system.
  */
-export type VisualizerMode = {
+export interface VisualizerMode {
     /** Unique identifier for the visualizer */
     id: string;
     /** Display name of the visualizer in Japanese */
@@ -14,9 +14,15 @@ export type VisualizerMode = {
      * @param ctx - The 2D rendering context for the canvas
      * @param dataArray - Audio data array from the analyzer node (values range from 0-255)
      * @param canvas - The canvas element being drawn on
+     * @param drawArea - The drawing area parameters
      */
-    draw: (ctx: CanvasRenderingContext2D, dataArray: Uint8Array, canvas: HTMLCanvasElement) => void;
-};
+    draw: (
+        ctx: CanvasRenderingContext2D,
+        dataArray: Uint8Array,
+        canvas: HTMLCanvasElement,
+        drawArea: DrawArea
+    ) => void;
+}
 
 /**
  * Common configuration interface for visualizers.
@@ -29,4 +35,11 @@ export interface VisualizerConfig {
     strokeStyle?: string;
     /** Background color of the canvas (default: rgb(20, 20, 20)) */
     backgroundColor?: string;
+}
+
+export interface DrawArea {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 } 
