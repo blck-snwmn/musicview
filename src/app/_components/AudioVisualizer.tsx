@@ -48,29 +48,30 @@ export const AudioVisualizer = () => {
     const startPlayback = () => {
         if (!audioContext || !audioBuffer) return;
 
-        // 既存の音声ノードをクリーンアップ
-        if (sourceRef.current) {
-            sourceRef.current.stop();
-            sourceRef.current.disconnect();
-        }
-
-        // 音声ノードの設定
+        // 新しいソースを作成
         const source = audioContext.createBufferSource();
-        const gainNode = gainNodeRef.current || audioContext.createGain();
-        const analyser = analyserRef.current || audioContext.createAnalyser();
-
         source.buffer = audioBuffer;
+
+        // アナライザーノードを作成
+        const analyser = audioContext.createAnalyser();
+        // FFTサイズを小さくして、より見やすい表示に
+        analyser.fftSize = 512;
+        // より広いデシベル範囲で音を検出
+        analyser.minDecibels = -85;
+        analyser.maxDecibels = -25;
+        // スムージングを調整（0に近いほど反応が敏感に）
+        analyser.smoothingTimeConstant = 0.6;
+
+        // ゲインノードを作成
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = volume;
+
+        // ノードを接続
         source.connect(gainNode);
         gainNode.connect(analyser);
         analyser.connect(audioContext.destination);
 
-        // 音量の設定
-        gainNode.gain.value = volume;
-
-        // アナライザーの設定
-        analyser.fftSize = 2048;
-
-        // ノードの参照を保存
+        // 参照を保存
         sourceRef.current = source;
         gainNodeRef.current = gainNode;
         analyserRef.current = analyser;
@@ -78,11 +79,6 @@ export const AudioVisualizer = () => {
         // 再生開始
         source.start(0);
         setIsPlaying(true);
-
-        // アニメーションを再開
-        if (drawRef.current) {
-            drawRef.current();
-        }
     };
 
     // 再生の停止

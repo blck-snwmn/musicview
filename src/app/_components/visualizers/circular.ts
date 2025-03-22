@@ -9,12 +9,15 @@ const defaultConfig: Required<VisualizerConfig> & {
     baseRadius: number;
     /** Scale factor for radius variation (higher values = more pronounced effect) */
     radiusScale: number;
+    /** Scale factor for low frequency emphasis */
+    lowFreqEmphasis: number;
 } = {
     lineWidth: 2,
     strokeStyle: 'rgb(100, 100, 255)',
     backgroundColor: 'rgb(20, 20, 20)',
-    baseRadius: 0.45,  // より大きな基本半径
-    radiusScale: 1.5,  // 適度な変化の幅
+    baseRadius: 0.45,  // 基本の円の大きさ
+    radiusScale: 1.5,  // 変化の幅
+    lowFreqEmphasis: 1.5,  // 低周波の強調度
 };
 
 /**
@@ -54,9 +57,14 @@ export const circularVisualizer: VisualizerMode = {
             const percent = i / bufferLength;
             const angle = percent * Math.PI * 2 - Math.PI / 2; // Start from top (-90 degrees)
 
+            // 低周波域をより強調して表示
+            const emphasis = i < bufferLength * 0.3 ? 
+                config.lowFreqEmphasis : 
+                1 + (config.lowFreqEmphasis - 1) * Math.pow(1 - i / bufferLength, 2);
+
             // Calculate radius variation based on frequency data
             const value = dataArray[i] / 255.0;
-            const radiusOffset = value * radius * config.radiusScale;
+            const radiusOffset = value * radius * config.radiusScale * emphasis;
             const currentRadius = radius + radiusOffset;
 
             // Convert polar coordinates to cartesian
