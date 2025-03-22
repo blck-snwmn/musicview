@@ -1,5 +1,12 @@
 {
 	"files.associations": {
 		"wrangler.json": "jsonc"
-	}
+	},
+	"[mdc]": {
+		"files.autoSave": "off"
+	},
+	"[markdown]": {
+		"files.autoSave": "off"
+	},
+	"files.autoSave": "off"
 }
