@@ -1,7 +1,7 @@
 'use client';
 
-import { AudioUploader } from './components/AudioUploader';
-import { AudioVisualizer } from './components/AudioVisualizer';
+import { AudioUploader } from './_components/AudioUploader';
+import { AudioVisualizer } from './_components/AudioVisualizer';
 import { AudioProvider, useAudio } from './contexts/AudioContext';
 
 function MainContent() {
