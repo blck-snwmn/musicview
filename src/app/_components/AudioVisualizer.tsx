@@ -44,6 +44,16 @@ export const AudioVisualizer = () => {
     // アニメーションの状態管理
     const drawRef = useRef<(() => void) | null>(null);
 
+    // 音声データが変更されたときの処理
+    useEffect(() => {
+        if (!audioBuffer || !audioContext) return;
+
+        // 既存の再生を停止
+        stopPlayback();
+        // 新しい音声データで再生を開始
+        startPlayback();
+    }, [audioBuffer, audioContext]);
+
     // 再生の開始
     const startPlayback = () => {
         if (!audioContext || !audioBuffer) return;
