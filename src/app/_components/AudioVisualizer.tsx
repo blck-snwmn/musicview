@@ -52,6 +52,10 @@ export const AudioVisualizer = () => {
         stopPlayback();
         // 新しい音声データで再生を開始
         startPlayback();
+        // 初期化フラグを設定
+        if (!isInitializedRef.current) {
+            isInitializedRef.current = true;
+        }
     }, [audioBuffer, audioContext]);
 
     // 再生の開始
