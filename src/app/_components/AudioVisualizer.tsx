@@ -33,7 +33,7 @@ export const AudioVisualizer = () => {
 
     // 再生状態と音量の管理
     const [isPlaying, setIsPlaying] = useState(true);
-    const [volume, setVolume] = useState(1);
+    const [volume, setVolume] = useState(0.5);
 
     // 波形データの保持用
     const lastDataArrayRef = useRef<Uint8Array | null>(null);
@@ -115,7 +115,8 @@ export const AudioVisualizer = () => {
         const newVolume = parseFloat(e.target.value);
         setVolume(newVolume);
         if (gainNodeRef.current) {
-            gainNodeRef.current.gain.value = newVolume;
+            // 音量が0の場合は完全にミュートにする
+            gainNodeRef.current.gain.value = newVolume === 0 ? 0.0000001 : newVolume;
         }
     };
 
@@ -268,7 +269,7 @@ export const AudioVisualizer = () => {
                             step="0.01"
                             value={volume}
                             onChange={handleVolumeChange}
-                            className="w-24"
+                            className="w-48"
                         />
                     </div>
                 </div>
