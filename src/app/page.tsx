@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { AudioUploader } from './_components/AudioUploader';
-import { AudioVisualizer } from './_components/AudioVisualizer';
-import { AudioProvider, useAudio } from './contexts/AudioContext';
+import { AudioUploader } from "./_components/AudioUploader";
+import { AudioVisualizer } from "./_components/AudioVisualizer";
+import { AudioProvider, useAudio } from "./contexts/AudioContext";
 
 function MainContent() {
   const { setAudioData, audioBuffer } = useAudio();
