@@ -1,0 +1,13 @@
+{
+	"$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+	"plugins": ["react", "react-hooks"],
+	"options": {
+		"typeAware": true,
+		"typeCheck": true
+	},
+	"rules": {
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn",
+		"react/react-in-jsx-scope": "off"
+	}
+}
