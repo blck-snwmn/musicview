@@ -10,6 +10,7 @@
 		"lint:fix": "oxlint --deny-warnings . --fix",
 		"fmt": "oxfmt --write src/",
 		"fmt:check": "oxfmt --check src/",
+		"test": "vitest run",
 		"typecheck": "tsc --noEmit",
 		"deploy": "opennextjs-cloudflare && wrangler deploy",
 		"preview": "opennextjs-cloudflare && wrangler dev",
@@ -32,6 +33,7 @@
 		"oxlint-tsgolint": "^0.22.1",
 		"tailwindcss": "^4",
 		"typescript": "^5",
+		"vitest": "^4.1.7",
 		"wrangler": "^4.3.0"
 	}
 }

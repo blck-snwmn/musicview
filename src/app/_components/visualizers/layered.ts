@@ -76,7 +76,7 @@ export const layeredVisualizer: VisualizerMode = {
       ctx.moveTo(firstX, firstY);
 
       // 周波数データを線で結ぶ
-      for (let i = 0; i <= layerLength; i++) {
+      for (let i = 0; i < layerLength; i++) {
         const dataIndex = startIdx + i;
         const x = drawArea.x + drawArea.width * (i / layerLength);
         const value = dataArray[dataIndex] / 255.0;
