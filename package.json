@@ -21,17 +21,17 @@
 		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20250320.0",
-		"@opennextjs/cloudflare": "1.17.x",
-		"@tailwindcss/postcss": "^4",
-		"@types/node": "^20",
+		"@cloudflare/workers-types": "4.20250320.0",
+		"@opennextjs/cloudflare": "1.17.3",
+		"@tailwindcss/postcss": "4.0.15",
+		"@types/node": "20.17.25",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
-		"oxfmt": "^0.48.0",
-		"oxlint": "^1.63.0",
-		"oxlint-tsgolint": "^0.22.1",
-		"tailwindcss": "^4",
-		"typescript": "^5",
-		"wrangler": "^4.3.0"
+		"oxfmt": "0.48.0",
+		"oxlint": "1.63.0",
+		"oxlint-tsgolint": "0.22.1",
+		"tailwindcss": "4.0.15",
+		"typescript": "5.8.2",
+		"wrangler": "4.59.1"
 	}
 }
