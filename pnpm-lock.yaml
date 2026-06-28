@@ -49,7 +49,7 @@ importers:
         specifier: ^4.0.15
         version: 4.0.15
       typescript:
-        specifier: ^5
+        specifier: ^5.8.2
         version: 5.8.2
       wrangler:
         specifier: ^4.59.1
