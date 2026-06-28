@@ -25,7 +25,7 @@ importers:
         specifier: 1.17.x
         version: 1.17.3(next@15.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(wrangler@4.59.1(@cloudflare/workers-types@4.20250320.0))
       '@tailwindcss/postcss':
-        specifier: ^4
+        specifier: ^4.0.15
         version: 4.0.15
       '@types/node':
         specifier: ^20.17.25
@@ -46,7 +46,7 @@ importers:
         specifier: ^0.23.0
         version: 0.23.0
       tailwindcss:
-        specifier: ^4
+        specifier: ^4.0.15
         version: 4.0.15
       typescript:
         specifier: ^5
@@ -4440,7 +4440,8 @@ snapshots:
 
   destroy@1.2.0: {}
 
-  detect-libc@2.0.3: {}
+  detect-libc@2.0.3:
+    optional: true
 
   detect-libc@2.1.2: {}
 
@@ -4811,7 +4812,7 @@ snapshots:
 
   lightningcss@1.29.2:
     dependencies:
-      detect-libc: 2.0.3
+      detect-libc: 2.1.2
     optionalDependencies:
       lightningcss-darwin-arm64: 1.29.2
       lightningcss-darwin-x64: 1.29.2

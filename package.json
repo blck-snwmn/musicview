@@ -23,14 +23,14 @@
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20250320.0",
 		"@opennextjs/cloudflare": "1.17.x",
-		"@tailwindcss/postcss": "^4",
+		"@tailwindcss/postcss": "^4.0.15",
 		"@types/node": "^20.17.25",
 		"@types/react": "19.0.12",
 		"@types/react-dom": "19.0.4",
 		"oxfmt": "^0.54.0",
 		"oxlint": "^1.63.0",
 		"oxlint-tsgolint": "^0.23.0",
-		"tailwindcss": "^4",
+		"tailwindcss": "^4.0.15",
 		"typescript": "^5",
 		"wrangler": "^4.3.0"
 	}
