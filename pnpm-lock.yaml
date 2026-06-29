@@ -49,8 +49,8 @@ importers:
         specifier: ^4.0.15
         version: 4.0.15
       typescript:
-        specifier: ^5.8.2
-        version: 5.8.2
+        specifier: ^6.0.0
+        version: 6.0.3
       wrangler:
         specifier: ^4.59.1
         version: 4.59.1(@cloudflare/workers-types@4.20250320.0)
@@ -2569,8 +2569,8 @@ packages:
     resolution: {integrity: sha512-faYHw0anBbc/kWF3zFTEnxSFOAGUX9GFbOBthvDdLsIlEoWOFOtS0zgCiQYwIskL9iGXZL3kAXD8OoZ4GmMATA==}
     engines: {node: '>= 18'}
 
-  typescript@5.8.2:
-    resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -5226,7 +5226,7 @@ snapshots:
       media-typer: 1.1.0
       mime-types: 3.0.2
 
-  typescript@5.8.2: {}
+  typescript@6.0.3: {}
 
   undici-types@5.26.5: {}
 
