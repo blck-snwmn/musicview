@@ -37,6 +37,9 @@ jobs:
       - name: Format check
         run: pnpm run fmt:check
 
+      - name: Cloudflare typegen check
+        run: pnpm run cf-typegen:check
+
       - name: Type check
         run: pnpm run typecheck
 

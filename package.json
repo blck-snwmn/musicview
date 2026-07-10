@@ -14,7 +14,8 @@
 		"typecheck": "tsc --noEmit",
 		"deploy": "opennextjs-cloudflare && wrangler deploy",
 		"preview": "opennextjs-cloudflare && wrangler dev",
-		"cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+		"cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+		"cf-typegen:check": "pnpm run cf-typegen && git diff --exit-code -- cloudflare-env.d.ts"
 	},
 	"dependencies": {
 		"next": "16.2.9",
@@ -22,7 +23,6 @@
 		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20250320.0",
 		"@opennextjs/cloudflare": "1.20.x",
 		"@tailwindcss/postcss": "^4.3.1",
 		"@types/node": "^24.0.0",
