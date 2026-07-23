@@ -50,7 +50,7 @@ aqua install
 
 ### Set up git hooks
 
-[lefthook](lefthook.yml) runs type checks on staged files before each commit. Register the hooks once after cloning:
+[lefthook](lefthook.yml) runs lint and format checks on staged files before each commit. Oxlint includes TypeScript compiler diagnostics through its type-aware configuration. Register the hooks once after cloning:
 
 ```bash
 lefthook install

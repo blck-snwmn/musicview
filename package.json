@@ -14,7 +14,6 @@
 		"lint:fix": "oxlint --deny-warnings . --fix",
 		"fmt": "oxfmt --write src/",
 		"fmt:check": "oxfmt --check src/",
-		"typecheck": "tsc --noEmit",
 		"deploy": "opennextjs-cloudflare && wrangler deploy",
 		"preview": "opennextjs-cloudflare && wrangler dev",
 		"cf-typegen": "wrangler types",
@@ -32,8 +31,8 @@
 		"@types/react": "19.2.17",
 		"@types/react-dom": "19.2.3",
 		"oxfmt": "0.59.0",
-		"oxlint": "1.74.0",
-		"oxlint-tsgolint": "0.25.0",
+		"oxlint": "1.75.0",
+		"oxlint-tsgolint": "7.0.2001",
 		"tailwindcss": "4.3.3",
 		"typescript": "6.0.3",
 		"wrangler": "4.112.0"
