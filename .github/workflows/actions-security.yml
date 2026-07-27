@@ -24,8 +24,9 @@ jobs:
         with:
           aqua_version: v2.62.0
 
-      - name: Check pinned action versions
-        run: pinact run --check
+      - parallel:
+          - name: Check pinned action versions
+            run: pinact run --check
 
-      - name: Audit GitHub Actions
-        run: zizmor --format github .
+          - name: Audit GitHub Actions
+            run: zizmor --format github .
