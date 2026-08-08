@@ -35,6 +35,6 @@
 		"oxlint-tsgolint": "7.0.2001",
 		"tailwindcss": "4.3.3",
 		"typescript": "6.0.3",
-		"wrangler": "4.118.0"
+		"wrangler": "4.119.0"
 	}
 }
