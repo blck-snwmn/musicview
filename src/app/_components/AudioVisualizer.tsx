@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAudio } from "../contexts/AudioContext";
 import { visualizers, VisualizerMode } from "./visualizers";
 
@@ -39,15 +39,9 @@ export const AudioVisualizer = () => {
   // 波形データの保持用
   const lastDataArrayRef = useRef<Uint8Array | null>(null);
 
-  // 初期化済みかどうかのフラグ
-  const isInitializedRef = useRef(false);
-
-  // アニメーションの状態管理
-  const drawRef = useRef<(() => void) | null>(null);
-
-  // 再生の開始
-  const startPlayback = useCallback(() => {
-    if (!audioContext || !audioBuffer) return;
+  // 再生状態に合わせて音声ノードを構築・破棄
+  useEffect(() => {
+    if (!audioContext || !audioBuffer || !isPlaying) return;
 
     // 新しいソースを作成
     const source = audioContext.createBufferSource();
@@ -77,39 +71,20 @@ export const AudioVisualizer = () => {
     gainNodeRef.current = gainNode;
     analyserRef.current = analyser;
 
-    // 再生開始
+    // 再生開始（初期表示時は自動再生）
     source.start(0);
-    setIsPlaying(true);
-  }, [audioBuffer, audioContext]);
 
-  // 再生の停止
-  const stopPlayback = useCallback(() => {
-    if (sourceRef.current) {
-      sourceRef.current.stop();
-      sourceRef.current.disconnect();
-      sourceRef.current = null;
-      setIsPlaying(false);
-      // アニメーションフレームをキャンセル
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = undefined;
-      }
-    }
-  }, []);
+    return () => {
+      source.stop();
+      source.disconnect();
+      gainNode.disconnect();
+      analyser.disconnect();
 
-  // 音声データが変更されたときの処理
-  useEffect(() => {
-    if (!audioBuffer || !audioContext) return;
-
-    // 既存の再生を停止
-    stopPlayback();
-    // 新しい音声データで再生を開始
-    startPlayback();
-    // 初期化フラグを設定
-    if (!isInitializedRef.current) {
-      isInitializedRef.current = true;
-    }
-  }, [audioBuffer, audioContext, startPlayback, stopPlayback]);
+      if (sourceRef.current === source) sourceRef.current = null;
+      if (gainNodeRef.current === gainNode) gainNodeRef.current = null;
+      if (analyserRef.current === analyser) analyserRef.current = null;
+    };
+  }, [audioBuffer, audioContext, isPlaying]);
 
   // 音量の変更
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,11 +99,7 @@ export const AudioVisualizer = () => {
 
   // 再生/停止の切り替え
   const togglePlayback = () => {
-    if (isPlaying) {
-      stopPlayback();
-    } else {
-      startPlayback();
-    }
+    setIsPlaying((playing) => !playing);
   };
 
   useEffect(() => {
@@ -140,12 +111,6 @@ export const AudioVisualizer = () => {
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
-
-    // 初回のみ再生を開始
-    if (!isInitializedRef.current) {
-      startPlayback();
-      isInitializedRef.current = true;
-    }
 
     // 停止中の初期状態のデータを作成
     const createNeutralData = () => {
@@ -185,15 +150,14 @@ export const AudioVisualizer = () => {
 
     // draw関数の定義
     const draw = () => {
-      if (!analyserRef.current) return;
-
       // 再生中のみアニメーションを継続
-      if (isPlaying) {
+      const analyser = analyserRef.current;
+      if (isPlaying && analyser) {
         animationFrameRef.current = requestAnimationFrame(draw);
 
         // 周波数データの取得
-        const rawData = new Uint8Array(analyserRef.current.frequencyBinCount);
-        analyserRef.current.getByteFrequencyData(rawData);
+        const rawData = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(rawData);
 
         // データを正規化
         const normalizedData = normalizeFrequencyData(rawData);
@@ -225,9 +189,6 @@ export const AudioVisualizer = () => {
       }
     };
 
-    // draw関数の参照を保存
-    drawRef.current = draw;
-
     // アニメーションを開始
     draw();
 
@@ -237,7 +198,7 @@ export const AudioVisualizer = () => {
         animationFrameRef.current = undefined;
       }
     };
-  }, [audioContext, audioBuffer, currentVisualizer, isPlaying, startPlayback]);
+  }, [audioContext, audioBuffer, currentVisualizer, isPlaying]);
 
   return (
     <div className="w-full max-w-4xl">
