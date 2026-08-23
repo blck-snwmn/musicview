@@ -27,6 +27,10 @@ jobs:
       - parallel:
           - name: Check pinned action versions
             run: pinact run --check
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
 
           - name: Audit GitHub Actions
             run: zizmor --format github .
+            env:
+              GH_TOKEN: ${{ github.token }}
