@@ -32,7 +32,7 @@
 		"@types/react-dom": "19.3.0",
 		"oxfmt": "0.70.0",
 		"oxlint": "1.85.0",
-		"oxlint-tsgolint": "7.0.2002",
+		"oxlint-tsgolint": "7.0.2003",
 		"tailwindcss": "4.3.3",
 		"typescript": "7.0.2",
 		"wrangler": "4.137.0"
